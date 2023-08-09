@@ -9,14 +9,14 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.bilibili.com/*"],
+      "matches": ["https://www.bilibili.com/video/*"],
       "js": ["contentScript.js"]
     }
   ],
   "web_accessible_resources": [
     {
       "resources": ["assets/play.png", "assets/delete.png"],
-      "matches": ["https://www.bilibili.com/*"]
+      "matches": ["https://www.bilibili.com/video/*"]
     }
   ],
   "action": {

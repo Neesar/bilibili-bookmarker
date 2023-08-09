@@ -33,10 +33,8 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
   if (msg.action === "updateIcon") {
     if (msg.value) {
-      console.log("changing to skyblue");
       chrome.action.setIcon({ path: "/assets/bookmarks-icon.png" });
     } else {
-      console.log("changing to gray");
       chrome.action.setIcon({ path: "/assets/bookmarks-icon-gray.png" });
     }
   }

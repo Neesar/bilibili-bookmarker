@@ -37,15 +37,8 @@
   };
 
   const newVideoLoaded = async () => {
-    //remove ads
-    const ads = document.getElementsByClassName("vcd")[0];
-
-    if (ads) ads.style.display = "none";
-
     if (!currentVideo) {
       const url = new URL(window.location.href);
-
-      console.log("url", url);
 
       const path = url.pathname;
 
