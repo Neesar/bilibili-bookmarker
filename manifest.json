@@ -16,7 +16,7 @@
   "web_accessible_resources": [
     {
       "resources": ["assets/play.png", "assets/delete.png"],
-      "matches": ["https://www.bilibili.com/video/*"]
+      "matches": ["https://www.bilibili.com/*"]
     }
   ],
   "action": {
