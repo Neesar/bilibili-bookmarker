@@ -15,13 +15,12 @@
       currentVideoBookmarks = currentVideoBookmarks.filter(
         (b) => b.time != value
       );
-      if (currentVideoBookmarks.length === 0) {
-        chrome.runtime.sendMessage({
-          action: "updateIcon",
-          value: false,
-        });
-      }
-      chrome.storage.sync.set({
+      chrome.runtime.sendMessage({
+        action: "updateIcon",
+        value: currentVideoBookmarks.length,
+      });
+
+      chrome.storage.local.set({
         [currentVideo]: JSON.stringify(currentVideoBookmarks),
       });
       response(currentVideoBookmarks);
@@ -30,7 +29,7 @@
 
   const fetchBookmarks = () => {
     return new Promise((resolve) =>
-      chrome.storage.sync.get([currentVideo], (obj) => {
+      chrome.storage.local.get([currentVideo], (obj) => {
         resolve(obj[currentVideo] ? JSON.parse(obj[currentVideo]) : []);
       })
     );
@@ -49,22 +48,15 @@
       currentVideo = [bv, p].join("+");
     }
 
-    //video bookmark
-    const bookmarkBtnExists = document.getElementsByClassName("blp-button")[0];
-
     currentVideoBookmarks = await fetchBookmarks();
 
-    if (currentVideoBookmarks.length) {
-      chrome.runtime.sendMessage({
-        action: "updateIcon",
-        value: true,
-      });
-    } else {
-      chrome.runtime.sendMessage({
-        action: "updateIcon",
-        value: false,
-      });
-    }
+    chrome.runtime.sendMessage({
+      action: "updateIcon",
+      value: currentVideoBookmarks.length,
+    });
+
+    //video bookmark
+    const bookmarkBtnExists = document.getElementsByClassName("blp-button")[0];
 
     if (!bookmarkBtnExists) {
       const bookmarkBtn = document.createElement("div");
@@ -77,7 +69,7 @@
       bookmarkBtnSVG.className = "bpx-common-svq-icon ";
 
       bookmarkBtnSVG.innerHTML =
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="skyblue" class="w-6 h-6"><path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" /> </svg>';
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="skyblue"><path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" /> </svg>';
 
       bookmarkBtn.appendChild(bookmarkBtnIcon);
       bookmarkBtnIcon.append(bookmarkBtnSVG);
@@ -99,18 +91,16 @@
       desc: "Bookmark at " + getTime(currentTime),
     };
 
-    chrome.runtime.sendMessage({
-      action: "updateIcon",
-      value: true,
-    });
-
-    currentVideoBookmarks = await fetchBookmarks();
-
     currentVideoBookmarks = [...currentVideoBookmarks, newBookmark].sort(
       (a, b) => a.time - b.time
     );
 
-    chrome.storage.sync.set({
+    chrome.runtime.sendMessage({
+      action: "updateIcon",
+      value: currentVideoBookmarks.length,
+    });
+
+    chrome.storage.local.set({
       [currentVideo]: JSON.stringify(currentVideoBookmarks),
     });
   };

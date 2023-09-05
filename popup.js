@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const currentVideo = [bv, p].join("+");
 
   if (activeTab.url.includes("bilibili.com/video") && currentVideo) {
-    chrome.storage.sync.get([currentVideo], (data) => {
+    chrome.storage.local.get([currentVideo], (data) => {
       const currentVideoBookmarks = data[currentVideo]
         ? JSON.parse(data[currentVideo])
         : [];

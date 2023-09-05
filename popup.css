@@ -1,6 +1,8 @@
 .container {
   width: 280px;
   color: #314d3e;
+  height: 280px;
+  overflow: scroll;
 }
 
 .title {

@@ -34,8 +34,12 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
   if (msg.action === "updateIcon") {
     if (msg.value) {
       chrome.action.setIcon({ path: "/assets/bookmarks-icon.png" });
+      chrome.action.setBadgeBackgroundColor({ color: "skyblue" });
+      chrome.action.setBadgeText({ text: "" + msg.value });
     } else {
       chrome.action.setIcon({ path: "/assets/bookmarks-icon-gray.png" });
+      chrome.action.setBadgeBackgroundColor({ color: "gray" });
+      chrome.action.setBadgeText({ text: "" + msg.value });
     }
   }
 });
